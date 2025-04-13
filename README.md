@@ -69,6 +69,9 @@ python predict.py
 ```
 ---
 
+- 需将模型参数保存在cifar10-three-layer-net下
+- predict部分已经进行了测试集的划分，运行后将展示在最优模型下的acc，以及展示随机取16张图片测试结果。
+
 ## 📁 项目结构
 
 ```
