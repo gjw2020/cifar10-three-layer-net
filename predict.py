@@ -20,6 +20,41 @@ def test_model(model, X_test, y_test):
     return accuracy
 
 
+# CIFAR-10 类别标签
+label_names = [
+    "airplane", "automobile", "bird", "cat", "deer",
+    "dog", "frog", "horse", "ship", "truck"
+]
+
+
+def visualize_predictions(model, X, y_true=None, num=16):
+    """
+    可视化模型对 CIFAR-10 输入的预测结果，展示为 4x4 网格
+    """
+    images = X[:num]
+    preds = predict(model, images)
+
+    plt.figure(figsize=(10, 10))
+    for i in range(num):
+        plt.subplot(4, 4, i + 1)
+
+        # ✅ 正确还原图像格式
+        img = images[i].reshape(32, 32, 3)       # (3072,) → (32, 32, 3)
+        img = (img * 0.5) + 0.5                  # 还原 [-1, 1] → [0, 1]
+        img = np.clip(img, 0, 1)                 # 避免像素溢出
+
+        plt.imshow(img)
+        pred_label = label_names[preds[i]]
+        if y_true is not None:
+            true_label = label_names[y_true[i]]
+            plt.title(f"Pred: {pred_label}\nTrue: {true_label}", fontsize=8)
+        else:
+            plt.title(f"Pred: {pred_label}", fontsize=9)
+        plt.axis('off')
+
+    plt.tight_layout()
+    plt.show()
+
 
 if __name__ == "__main__":
     # 加载数据
@@ -45,8 +80,13 @@ if __name__ == "__main__":
         model.params = model_params
         return model
 
-    model = load_model('https://drive.google.com/file/d/1GnPpTz2bGZZuR8_7qVd2iH6bYwFxocqv/view?usp=sharing')
+    model = load_model(file_path='./best_model.pkl')
     acc = test_model(model, X_test, y_test)
     print(f'测试集准确率为： {acc}')
+
+    # 展示前 10 张图片的预测结果
+    visualize_predictions(model, X_test, y_test, num=16)
+
+
 
 
