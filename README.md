@@ -35,7 +35,7 @@
 
 ### 1.克隆本项目
 ```bash
-git clone https://github.com/yourusername/cifar10-three-layer-net.git
+git clone https://github.com/gjw2020/cifar10-three-layer-net.git
 cd cifar10-three-layer-net
 ```
 
